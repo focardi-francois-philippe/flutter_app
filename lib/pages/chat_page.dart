@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:superchat/Bloc/ChatMessage/ChatMessageBloc.dart';
+import 'package:superchat/Bloc/ChatMessage/ChatMessageEvent.dart';
 import 'package:superchat/Bloc/ChatMessage/ChatMessageState.dart';
 
 import '../Model/ChatMessage.dart';
+
 class ChatPage extends StatelessWidget {
   final String userId;
   final String displayName;
@@ -17,7 +19,7 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ChatMessageBloc(userId, displayName),
-      child: _ChatPageView(userId: userId,displayName: displayName),
+      child: _ChatPageView(userId: userId, displayName: displayName),
     );
   }
 }
@@ -26,7 +28,9 @@ class _ChatPageView extends StatelessWidget {
   final TextEditingController _messageController = TextEditingController();
   late final String userId;
   late final String displayName;
+
   _ChatPageView({required this.userId, required this.displayName});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,13 +55,18 @@ class _ChatPageView extends StatelessWidget {
                     reverse: true,
                     itemBuilder: (context, index) {
                       ChatMessage message = messages[index];
-                      bool isSentByMe = message.from != userId; // Assurez-vous que cette logique est correcte
+                      bool isSentByMe = message.from !=
+                          userId; // Assurez-vous que cette logique est correcte
 
                       return Align(
-                        alignment: isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
+                        alignment: isSentByMe
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: isSentByMe ? Colors.blue : Colors.deepOrange,
                             borderRadius: BorderRadius.circular(12),
@@ -75,7 +84,35 @@ class _ChatPageView extends StatelessWidget {
               },
             ),
           ),
-
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                      hintText: 'Écrire un message...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send),
+                  onPressed: () {
+                    String messageText = _messageController.text;
+                    if (messageText.isNotEmpty) {
+                      BlocProvider.of<ChatMessageBloc>(context)
+                          .add(SendMessageEvent(messageText));
+                      _messageController.clear();
+                    }
+                  },
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

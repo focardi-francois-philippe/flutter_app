@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:superchat/Utils.dart';
 
 import '../../Model/ChatUser.dart';
 
@@ -14,7 +15,7 @@ class ChatUserBloc extends Bloc<ChatUserEvent, ChatUserState> {
     on<LoadUsersEvent>((event, emit) async {
       emit(ChatUserLoadingState());
       try {
-        String currentUserId = await getUserId();
+        String currentUserId = Utils.getCurrentUserId()??"";
         final users = await getUsers(currentUserId);
         emit(ChatUserLoadedState(users));
       } catch (e) {
@@ -22,10 +23,7 @@ class ChatUserBloc extends Bloc<ChatUserEvent, ChatUserState> {
       }
     });
   }
-  Future<String> getUserId() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('user_id') ?? 'ID non trouvé';
-  }
+
   Future<List<ChatUser>> getUsers(String currentUserId) async {
     var collection = FirebaseFirestore.instance.collection('users');
     var querySnapshot = await collection.where('id', isNotEqualTo: currentUserId).get();
