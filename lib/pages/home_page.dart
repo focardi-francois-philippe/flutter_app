@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:superchat/constants.dart';
+import 'package:superchat/pages/settings_page.dart';
 import 'package:superchat/pages/sign_in_page.dart';
 import 'package:superchat/widgets/stream_listener.dart';
 
-import '../Bloc/ChatUser/ChatUserBloc.dart';
-import '../Bloc/ChatUser/ChatUserEvent.dart';
-import '../Bloc/ChatUser/ChatUserState.dart';
+import '../Bloc/ChatUser/chat_user_bloc.dart';
+import '../Bloc/ChatUser/chat_user_event.dart';
+import '../Bloc/ChatUser/chat_user_state.dart';
 import '../Model/ChatUser.dart';
 import 'chat_page.dart';
 
@@ -34,8 +35,18 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(kAppTitle),
-          backgroundColor: theme.colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SettingsWidget(),
+                  ),
+                );
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
@@ -52,7 +63,7 @@ class HomePage extends StatelessWidget {
     if (state is ChatUserLoadingState) {
     return CircularProgressIndicator();
     }
-    if (state is ChatUserLoadedState) {
+    if (state is ChatUsersLoadedState) {
     return ListView.builder(
     itemCount: state.users.length,
       itemBuilder: (context, index) {

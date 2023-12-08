@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:superchat/Bloc/ChatMessage/ChatMessageBloc.dart';
-import 'package:superchat/Bloc/ChatMessage/ChatMessageEvent.dart';
-import 'package:superchat/Bloc/ChatMessage/ChatMessageState.dart';
+import 'package:superchat/Bloc/ChatMessage/chat_message_bloc.dart';
+import 'package:superchat/Bloc/ChatMessage/chat_message_event.dart';
+import 'package:superchat/Bloc/ChatMessage/chat_message_state.dart';
 
 import '../Model/ChatMessage.dart';
 
@@ -56,7 +56,7 @@ class _ChatPageView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       ChatMessage message = messages[index];
                       bool isSentByMe = message.from !=
-                          userId; // Assurez-vous que cette logique est correcte
+                          userId;
 
                       return Align(
                         alignment: isSentByMe

@@ -146,10 +146,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
         if (credential.user != null) {
           ChatUser chatUser = ChatUser(
-              id: credential.user?.uid ?? '', // L'ID peut être nul, alors assurez-vous de gérer cela correctement
+              id: credential.user?.uid ?? '',
               displayName: _emailFieldController.text.trim().split("@")[0],
               bio: ""
-            // Ajoutez d'autres propriétés de ChatUser ici en fonction de vos besoins
+
           );
           CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
           await usersCollection.add(chatUser.toJson());

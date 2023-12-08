@@ -156,11 +156,10 @@ class _SignInPageState extends State<SignInPage> {
             id: userId,
             displayName: _emailFieldController.text.trim().split("@")[0],
             bio: "",
-            // Ajoutez d'autres propriétés de l'utilisateur ici en fonction de vos besoins
+
           );
           final userData = chatUser.toMap();
 
-          // Ajoutez les données de l'utilisateur à Firestore
           await userDoc.set(userData);
         }
         if (credential.user != null) {

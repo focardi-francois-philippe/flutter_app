@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:superchat/Bloc/ChatMessage/ChatMessageEvent.dart';
-import 'package:superchat/Bloc/ChatMessage/ChatMessageState.dart';
+import 'package:superchat/Bloc/ChatMessage/chat_message_event.dart';
+import 'package:superchat/Bloc/ChatMessage/chat_message_state.dart';
 import 'package:superchat/Utils.dart';
 
 import '../../Model/ChatMessage.dart';
