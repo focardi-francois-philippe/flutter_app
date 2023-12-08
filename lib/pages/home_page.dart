@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
     child:BlocBuilder<ChatUserBloc, ChatUserState>(
     builder: (context, state) {
     if (state is ChatUserLoadingState) {
-    return CircularProgressIndicator();
+    return const CircularProgressIndicator();
     }
     if (state is ChatUsersLoadedState) {
     return ListView.builder(
