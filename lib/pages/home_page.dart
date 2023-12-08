@@ -9,7 +9,9 @@ import 'package:superchat/constants.dart';
 import 'package:superchat/pages/sign_in_page.dart';
 import 'package:superchat/widgets/stream_listener.dart';
 
-import '../HomePageBloc.dart';
+import '../Bloc/ChatUser/ChatUserBloc.dart';
+import '../Bloc/ChatUser/ChatUserEvent.dart';
+import '../Bloc/ChatUser/ChatUserState.dart';
 import '../Model/ChatUser.dart';
 import 'chat_page.dart';
 
@@ -44,8 +46,8 @@ class HomePage extends StatelessWidget {
         ),
     body:
         BlocProvider(
-          create: (context) => HomePageBloc()..add(LoadUsersEvent()),
-    child:BlocBuilder<HomePageBloc, ChatUserState>(
+          create: (context) => ChatUserBloc()..add(LoadUsersEvent()),
+    child:BlocBuilder<ChatUserBloc, ChatUserState>(
     builder: (context, state) {
     if (state is ChatUserLoadingState) {
     return CircularProgressIndicator();

@@ -2,34 +2,15 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Model/ChatUser.dart';
+import '../../Model/ChatUser.dart';
 
-// Événements
-abstract class ChatUserEvent {}
+import 'ChatUserEvent.dart';
+import 'ChatUserState.dart';
 
-class LoadUsersEvent extends ChatUserEvent {}
 
-// États
-abstract class ChatUserState {}
 
-class ChatUserInitialState extends ChatUserState {}
-
-class ChatUserLoadingState extends ChatUserState {}
-
-class ChatUserLoadedState extends ChatUserState {
-  final List<ChatUser> users;
-
-  ChatUserLoadedState(this.users);
-}
-
-class ChatUserErrorState extends ChatUserState {
-  final String message;
-
-  ChatUserErrorState(this.message);
-}
-
-class HomePageBloc extends Bloc<ChatUserEvent, ChatUserState> {
-  HomePageBloc() : super(ChatUserInitialState()) {
+class ChatUserBloc extends Bloc<ChatUserEvent, ChatUserState> {
+  ChatUserBloc() : super(ChatUserInitialState()) {
     on<LoadUsersEvent>((event, emit) async {
       emit(ChatUserLoadingState());
       try {
